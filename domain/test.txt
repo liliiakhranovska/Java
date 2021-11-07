@@ -1,1 +1,0 @@
-{"type":null,"coordinatesOfSelectedPiece":null,"side":"WHITE","piecesOnBoard":null,"pieceBeyondBoard":null}

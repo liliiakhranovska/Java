@@ -1,9 +1,9 @@
-Board/logic/logicpieces/QueenImpl.java
- Board.logic.logicpieces.QueenImpl
+Board/StartGame.java
+ Board.StartGame
 Board/logic/Application3D.java
  Board.logic.Application3D
-Calc.java
- Calc
+Board/javafx/Impl2D/Environment2DImpl.java
+ Board.javafx.Impl2D.Environment2DImpl
 Recall/Main4.java
  Recall.Main4
 RestLearning/HelloThread.java
@@ -18,14 +18,15 @@ Recall/EvenOrOdd.java
  Recall.EvenOrOdd
 Recall/Raccoon.java
  Recall.Raccoon
-Board/javafx/Buttons.java
- Board.javafx.Buttons
+Board/javafx/Impl3D/Piece3DImpl.java
+ Board.javafx.Impl3D.Piece3DImpl
+ Board.javafx.Impl3D.Piece3DImpl$1
 Board/logic/PiecesBeyondBoard.java
  Board.logic.PiecesBeyondBoard
 Board/logic/logicpieces/BlackPawnImpl.java
  Board.logic.logicpieces.BlackPawnImpl
-Board/logic/logicpieces/BishopImpl.java
- Board.logic.logicpieces.BishopImpl
+Board/javafx/Impl3D/Actions/CatchPiece.java
+ Board.javafx.Impl3D.Actions.CatchPiece
 Board/logic/logicpieces/RookImpl.java
  Board.logic.logicpieces.RookImpl
 RestLearning/Test353.java
@@ -34,30 +35,38 @@ RestLearning/Test353.java
  RestLearning.Test353
 RestLearning/JsonToJava.java
  RestLearning.JsonToJava
-Board/logic/logicpieces/WhitePawnImpl.java
- Board.logic.logicpieces.WhitePawnImpl
+Board/logic/Game.java
+ Board.logic.Game
+ Board.logic.Game$GetStateSupplier
+ Board.logic.Game$SaveStateSupplier
+ Board.logic.Game$SendStateSupplier
+ Board.logic.Game$Supplier
+ Board.logic.Game$TypeOfGame
 Board/logic/logicpieces/PhysicalPiece.java
  Board.logic.logicpieces.PhysicalPiece
 Board/logic/CoordinatesImmutable.java
  Board.logic.CoordinatesImmutable
-Board/javafx/windowconfig/SINGLEBOARD.java
- Board.javafx.windowconfig.SINGLEBOARD
+Board/logic/PiecesOnBoard2DImpl.java
+ Board.logic.PiecesOnBoard2DImpl
+ Board.logic.PiecesOnBoard2DImpl$1
 Board/Deserialization.java
  Board.Deserialization
 Recall/Main3.java
  Recall.Main3
-Board/TestLily.java
- Board.TestLily
-RestLearning/Main.java
- RestLearning.Main
+Board/javafx/Application3DImpl.java
+ Board.javafx.Application3DImpl
+ Board.javafx.Application3DImpl$1
 Board/logic/logicpieces/KnightImpl.java
  Board.logic.logicpieces.KnightImpl
 Board/javafx/Impl2D/ChessBoard2DImpl.java
  Board.javafx.Impl2D.ChessBoard2DImpl
-Board/logic/PiecesBeyondBoardImpl.java
- Board.logic.PiecesBeyondBoardImpl
-Board/javafx/windowconfig/DOUBLEBOARD.java
- Board.javafx.windowconfig.DOUBLEBOARD
+Board/logic/GameState.java
+ Board.logic.GameState
+ Board.logic.GameState$PieceSer
+ Board.logic.GameState$PiecesBeyondBoardSer
+ Board.logic.GameState$PiecesOnBoardSer
+Board/javafx/Impl3D/Actions/SelectPossibleMoves.java
+ Board.javafx.Impl3D.Actions.SelectPossibleMoves
 Recall/Dog.java
  Recall.Dog
 Board/javafx/Impl3D/Actions/HighlightPiece.java
@@ -68,8 +77,9 @@ Board/fileManagement/ReadPointsByName.java
  Board.fileManagement.ReadPointsByName
 Board/logic/Directions.java
  Board.logic.Directions
-Recall/Main2.java
- Recall.Main2
+Board/logic/PiecesOnBoard3DImpl.java
+ Board.logic.PiecesOnBoard3DImpl
+ Board.logic.PiecesOnBoard3DImpl$1
 Recall/Converter.java
  Recall.Converter
 Board/logic/Piece.java
@@ -96,8 +106,9 @@ Recall/awt/ShapesDrawing.java
  Recall.awt.ShapesDrawing$2
 RestLearning/Training.java
  RestLearning.Training
-Recall/FindMax.java
- Recall.FindMax
+Board/logic/logicpieces/AbstractPiece.java
+ Board.logic.logicpieces.AbstractPiece
+ Board.logic.logicpieces.RequiredInner
 Board/javafx/MyHandler.java
  Board.javafx.MyHandler
 Board/javafx/Moves.java
@@ -106,47 +117,32 @@ Recall/Main.java
  Recall.Main
 Board/logic/Environment.java
  Board.logic.Environment
-Board/StartGame.java
- Board.StartGame
-Board/javafx/Impl2D/Environment2DImpl.java
- Board.javafx.Impl2D.Environment2DImpl
-Board/logic/PiecesOnBoard3DImpl.java
- Board.logic.PiecesOnBoard3DImpl
- Board.logic.PiecesOnBoard3DImpl$1
-Board/logic/Game.java
- Board.logic.Game
- Board.logic.Game$GetStateSupplier
- Board.logic.Game$SaveStateSupplier
- Board.logic.Game$SendStateSupplier
- Board.logic.Game$Supplier
- Board.logic.Game$TypeOfGame
-Board/logic/PiecesOnBoard2DImpl.java
- Board.logic.PiecesOnBoard2DImpl
- Board.logic.PiecesOnBoard2DImpl$1
+Board/logic/logicpieces/QueenImpl.java
+ Board.logic.logicpieces.QueenImpl
+Board/logic/logicpieces/BishopImpl.java
+ Board.logic.logicpieces.BishopImpl
+Board/javafx/windowconfig/DOUBLEBOARD.java
+ Board.javafx.windowconfig.DOUBLEBOARD
+Board/javafx/Buttons.java
+ Board.javafx.Buttons
+Recall/FindMax.java
+ Recall.FindMax
+Board/logic/PiecesBeyondBoardImpl.java
+ Board.logic.PiecesBeyondBoardImpl
 Board/javafx/Impl2D/Piece2DImpl.java
  Board.javafx.Impl2D.Piece2DImpl
  Board.javafx.Impl2D.Piece2DImpl$1
-Board/javafx/Application3DImpl.java
- Board.javafx.Application3DImpl
- Board.javafx.Application3DImpl$1
+RestLearning/Main.java
+ RestLearning.Main
 Board/javafx/Impl3D/Environment3DImpl.java
  Board.javafx.Impl3D.Environment3DImpl
 Board/javafx/Impl3D/Actions/TakePiece.java
  Board.javafx.Impl3D.Actions.TakePiece
-Board/logic/GameState.java
- Board.logic.GameState
- Board.logic.GameState$PieceSer
- Board.logic.GameState$PiecesBeyondBoardSer
- Board.logic.GameState$PiecesOnBoardSer
-Board/logic/logicpieces/AbstractPiece.java
- Board.logic.logicpieces.AbstractPiece
- Board.logic.logicpieces.RequiredInner
-Board/javafx/Impl3D/Piece3DImpl.java
- Board.javafx.Impl3D.Piece3DImpl
- Board.javafx.Impl3D.Piece3DImpl$1
-Board/javafx/Impl3D/Actions/SelectPossibleMoves.java
- Board.javafx.Impl3D.Actions.SelectPossibleMoves
-Board/javafx/Impl3D/Actions/CatchPiece.java
- Board.javafx.Impl3D.Actions.CatchPiece
+Board/javafx/windowconfig/SINGLEBOARD.java
+ Board.javafx.windowconfig.SINGLEBOARD
+Board/logic/logicpieces/WhitePawnImpl.java
+ Board.logic.logicpieces.WhitePawnImpl
+Recall/Main2.java
+ Recall.Main2
 Board/javafx/Impl3D/Actions/MovePiece.java
  Board.javafx.Impl3D.Actions.MovePiece

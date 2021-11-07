@@ -1,5 +1,0 @@
- {
-    "emp_id":1,
-    "name":1,
-    "cmpName":"TATA"
- },
