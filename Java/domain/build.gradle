@@ -1,0 +1,54 @@
+plugins {
+    id 'java'
+    id 'application'
+    id 'org.openjfx.javafxplugin' version '0.0.9'
+    id 'org.springframework.boot' version '2.5.5'
+    id 'io.spring.dependency-management' version '1.0.11.RELEASE'
+}
+
+group 'com.chessgame'
+version '1.0-SNAPSHOT'
+
+application {
+    mainClassName='ChessGame'
+}
+
+javafx {
+    version='17'
+    modules=['javafx.controls', 'javafx.fxml', 'javafx.media', 'javafx.graphics']
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation 'org.testng:testng:7.1.0'
+    implementation group: 'org.json', name: 'json', version: '20090211'
+    implementation group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.0.1'
+    implementation group: 'com.google.api-client', name: 'google-api-client', version: '1.19.1'
+    implementation group: 'javax.ws.rs', name: 'javax.ws.rs-api', version: '2.0'
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.6.0'
+    testImplementation 'org.junit.jupiter:junit-jupiter-params:5.6.0'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.6.0'
+    compileOnly 'org.projectlombok:lombok:1.18.20'
+    compile 'org.apache.httpcomponents:httpclient:4.5.13'
+    compile 'commons-io:commons-io:2.11.0'
+    annotationProcessor 'org.projectlombok:lombok:1.18.20'
+
+    implementation 'com.fasterxml.jackson.core:jackson-databind:2.11.1'
+    implementation 'io.vertx:vertx-core:3.5.3'
+
+    testCompileOnly 'org.projectlombok:lombok:1.18.20'
+    testAnnotationProcessor 'org.projectlombok:lombok:1.18.20'
+
+    implementation 'org.springframework.boot:spring-boot-starter'
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+
+
+}
+
+
+test {
+    useJUnitPlatform()
+}
