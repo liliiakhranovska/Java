@@ -1,15 +1,15 @@
 package Board.logic;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.apache.http.HttpResponse;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.impl.client.HttpClientBuilder;
+import com.google.api.client.http.*;
+import com.google.api.client.http.javanet.NetHttpTransport;
+import com.google.api.client.http.json.JsonHttpContent;
+import com.google.api.client.json.JsonFactory;
+import com.google.api.client.json.JsonObjectParser;
+import com.google.api.client.json.jackson2.JacksonFactory;
 
 import java.io.*;
-import java.net.URLEncoder;
-import java.nio.charset.StandardCharsets;
+import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -77,11 +77,8 @@ public class Game {
 
         final SaveStateSupplier saveSupplier = new SaveStateSupplier();
         final SendStateSupplier sendSupplier = new SendStateSupplier();
-        final GetStateSupplier getSupplier = new GetStateSupplier();
         instance.registerSupplier(saveSupplier);
         instance.registerSupplier(sendSupplier);
-        instance.registerSupplier(getSupplier);
-
     }
 
     public TypeOfGame getType() {
@@ -166,47 +163,29 @@ public class Game {
         }
     }
 
+    static final HttpTransport HTTP_TRANSPORT = new NetHttpTransport();
+    static final JsonFactory JSON_FACTORY = new JacksonFactory();
+
     private static class SendStateSupplier implements Supplier {
 
         @Override
         public void handle() {
             final GameState game = Game.getInstance().getGameState();
             try {
-                final HttpClient client = HttpClientBuilder.create().build();
-                final String gameState = URLEncoder.encode(game.toJson(), StandardCharsets.UTF_8.toString());
-                final HttpPost post = new HttpPost("http://localhost:8083/?gamestate=" + gameState);
-                final HttpResponse response = client.execute(post);
-//                String id = response.getFirstHeader("GameId").getValue();
-//                System.out.println("GameId: " + id);
+                HttpRequestFactory requestFactory =
+                        HTTP_TRANSPORT.createRequestFactory(
+                                request -> request.setParser(new JsonObjectParser(JSON_FACTORY))
+                        );
+                GenericUrl url = new GenericUrl ("http://localhost:8081/hello/game");
+                HttpRequest request = requestFactory.buildPostRequest(url, new JsonHttpContent(JSON_FACTORY, game));
+                String uid = request.execute().parseAs(String.class);
+                game.setId(UUID.fromString(uid));
+                System.out.println(uid);
             } catch (Exception e) {
                 e.printStackTrace();
             }
         }
     }
-
-    private static class GetStateSupplier implements Supplier {
-
-        @Override
-        public void handle() {
-            final GameState game = Game.getInstance().getGameState();
-            try {
-                final HttpClient client = HttpClientBuilder.create().build();
-                final String gameState = URLEncoder.encode(game.toJson(), StandardCharsets.UTF_8.toString());
-                final HttpGet get = new HttpGet("http://localhost:8083/?gamestate=" + gameState);
-                final HttpResponse response = client.execute(get);
-                BufferedReader rd = new BufferedReader (new InputStreamReader(response.getEntity().getContent()));
-                String line = rd.readLine();
-                line = line.replace("\"", "");
-                UUID id = UUID.fromString(line);
-                Game.getInstance().setId(id);
-                System.out.println("ID: " + Game.getInstance().getId().toString());
-
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
-    }
-
 
     private List<Supplier> suppliers = new ArrayList<>();
 
