@@ -3,12 +3,10 @@ package Chess;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.AllArgsConstructor;
-import lombok.ToString;
 
 import java.util.UUID;
 
 @AllArgsConstructor
-@ToString
 public class GameState {
 
     public Game.TypeOfGame type;

@@ -35,7 +35,7 @@ public class GamesOnServer {
             GameState gameState = objectMapper.readValue(gameStateString, GameState.class);
 //
 
-            System.out.println("ID: " + GamesOnServer.getGameId(gameState));
+//            System.out.println("ID: " + GamesOnServer.getGameId(gameState));
             System.out.println("id from json: "
                     + gameState.getId()
                     + " Side: " + gameState.getSide()

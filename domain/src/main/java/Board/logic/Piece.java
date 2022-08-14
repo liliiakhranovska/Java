@@ -1,8 +1,6 @@
 package Board.logic;
 
 import Board.logic.logicpieces.*;
-import com.google.api.client.util.NullValue;
-import com.google.api.client.util.Value;
 
 import java.util.List;
 
@@ -17,10 +15,9 @@ public interface Piece {
     PieceName getNameOfPiece();
     Color getColorOfPiece();
 
+
     enum Color {
-//        @Value
         WHITE,
-//        @Value
         BLACK
     }
 

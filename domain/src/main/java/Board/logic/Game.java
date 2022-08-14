@@ -1,15 +1,15 @@
 package Board.logic;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.google.api.client.http.*;
-import com.google.api.client.http.javanet.NetHttpTransport;
-import com.google.api.client.http.json.JsonHttpContent;
-import com.google.api.client.json.JsonFactory;
-import com.google.api.client.json.JsonObjectParser;
-import com.google.api.client.json.jackson2.JacksonFactory;
+import org.apache.http.HttpResponse;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.impl.client.HttpClientBuilder;
 
 import java.io.*;
-import java.net.URI;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -24,7 +24,7 @@ public class Game {
     private GameState gameState;
 
     public Game(GameState gameState) {
-        this.setGameState(gameState);
+        this.setGameState(gameState);  // при чтении состояния он у нас только вызывается
         type = gameState.type;
         side = gameState.side;
 
@@ -38,7 +38,7 @@ public class Game {
     }
 
     public TypeOfGame type; // 2
-    //    List<GameBoard> boards;   // logical
+//    List<GameBoard> boards;   // logical
     public Coordinates coordinatesOfSelectedPiece = null; //1
     private Piece.Color side = WHITE; //1
     private PiecesOnBoard piecesOnBoard = null; //1
@@ -77,8 +77,11 @@ public class Game {
 
         final SaveStateSupplier saveSupplier = new SaveStateSupplier();
         final SendStateSupplier sendSupplier = new SendStateSupplier();
+        final GetStateSupplier getSupplier = new GetStateSupplier();
         instance.registerSupplier(saveSupplier);
         instance.registerSupplier(sendSupplier);
+        instance.registerSupplier(getSupplier);
+
     }
 
     public TypeOfGame getType() {
@@ -123,15 +126,15 @@ public class Game {
         return gameState;
     }
 
-    public void setGameState(GameState gameState) {
+    public void setGameState(GameState gameState) { // здесь мы сообщаем всем supplier-ам -> setgamestate
         this.gameState = gameState;
         suppliers.forEach(Supplier::handle);
     }
 
-    public void handleChanges() {
-        GameState game = new GameState(getInstance().getId(), getInstance().getType(),
-                getInstance().getSide(),
-                getInstance().getPiecesOnBoard(),
+    public void handleChanges() { // произошли изменения, нам нужно эти изменения привсти к Gamestate
+        GameState game = new GameState(getInstance().getId(), getInstance().getType(),  // нужно вынести, к 3D не должно относиться никак
+                getInstance().getSide(), // на каждый move у нас будет создаваться новый gameState, этот новый gameState у нас будет сохраняться в файл, отправляться в URL...
+                getInstance().getPiecesOnBoard(), // после того как мы сюда его запихнули, мы всем supplier-ам должны об этом сообщить -> строка 109 этого класса
                 getInstance().getPieceBeyondBoard()
         );
 
@@ -163,34 +166,52 @@ public class Game {
         }
     }
 
-    static final HttpTransport HTTP_TRANSPORT = new NetHttpTransport();
-    static final JsonFactory JSON_FACTORY = new JacksonFactory();
-
     private static class SendStateSupplier implements Supplier {
 
         @Override
         public void handle() {
             final GameState game = Game.getInstance().getGameState();
             try {
-                HttpRequestFactory requestFactory =
-                        HTTP_TRANSPORT.createRequestFactory(
-                                request -> request.setParser(new JsonObjectParser(JSON_FACTORY))
-                        );
-                GenericUrl url = new GenericUrl ("http://localhost:8081/hello/game");
-                HttpRequest request = requestFactory.buildPostRequest(url, new JsonHttpContent(JSON_FACTORY, game));
-                String uid = request.execute().parseAs(String.class);
-                game.setId(UUID.fromString(uid));
-                System.out.println(uid);
+                final HttpClient client = HttpClientBuilder.create().build();
+                final String gameState = URLEncoder.encode(game.toJson(), StandardCharsets.UTF_8.toString());
+                final HttpPost post = new HttpPost("http://localhost:8080/?gamestate=" + gameState);
+                final HttpResponse response = client.execute(post); // response никто на аналиирует, единственное что
+//                String id = response.getFirstHeader("GameId").getValue();
+//                System.out.println("GameId: " + id);
             } catch (Exception e) {
                 e.printStackTrace();
             }
         }
     }
 
+    private static class GetStateSupplier implements Supplier {
+
+        @Override
+        public void handle() {
+            final GameState game = Game.getInstance().getGameState();
+            try {
+                final HttpClient client = HttpClientBuilder.create().build();
+                final String gameState = URLEncoder.encode(game.toJson(), StandardCharsets.UTF_8.toString());
+                final HttpGet get = new HttpGet("http://localhost:8080/?gamestate=" + gameState);
+                final HttpResponse response = client.execute(get); // response никто на аналиирует, единственное что
+                BufferedReader rd = new BufferedReader (new InputStreamReader(response.getEntity().getContent()));
+                String line = rd.readLine();
+                line = line.replace("\"", "");
+                UUID id = UUID.fromString(line);
+                Game.getInstance().setId(id);
+                System.out.println("ID: " + Game.getInstance().getId().toString());
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+
     private List<Supplier> suppliers = new ArrayList<>();
 
     public void registerSupplier(Supplier o) {
-        suppliers.add(o);
+         suppliers.add(o);
     }
 
 

@@ -6,12 +6,10 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import io.vertx.core.json.Json;
 import lombok.AllArgsConstructor;
-import lombok.ToString;
 
 import java.util.UUID;
 
 @AllArgsConstructor
-@ToString
 //@JsonSerialize
 //@JsonDeserialize
 public class GameState {
